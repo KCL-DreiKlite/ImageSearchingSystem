@@ -1,0 +1,10 @@
+BasicInfo.json:
+    workingFolder : The directory ISS gonna work on
+
+
+TagSystem.json:
+    tagTree (JSONObject) : All tags will stored in this object
+
+
+ImageDetail.json:
+
