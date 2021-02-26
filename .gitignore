@@ -58,3 +58,25 @@ bin/test_folder/QuAn 頭貼/be297bc5gy1gcj3rmennjj20dw0dwdlt.jpg
 .vscode/launch.json
 .vscode/tasks.json
 bin/Image Searching System.jar
+src/org/json/CDL.java
+src/org/json/Cookie.java
+src/org/json/CookieList.java
+src/org/json/HTTP.java
+src/org/json/HTTPTokener.java
+src/org/json/JSONArray.java
+src/org/json/JSONException.java
+src/org/json/JSONML.java
+src/org/json/JSONObject.java
+src/org/json/JSONPointer.java
+src/org/json/JSONPointerException.java
+src/org/json/JSONPropertyIgnore.java
+src/org/json/JSONPropertyName.java
+src/org/json/JSONString.java
+src/org/json/JSONStringer.java
+src/org/json/JSONTokener.java
+src/org/json/JSONWriter.java
+src/org/json/Property.java
+src/org/json/XML.java
+src/org/json/XMLParserConfiguration.java
+src/org/json/XMLTokener.java
+lib/json.jar.deprecated
