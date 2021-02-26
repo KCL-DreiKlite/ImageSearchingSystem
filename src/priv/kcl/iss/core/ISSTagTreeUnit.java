@@ -98,10 +98,18 @@ public class ISSTagTreeUnit {
         return tagName;
     }
 
-    public ISSTagTreeUnit getChildTree(int index) {
+    /**
+     * Get child by specific arraylist index.
+     * 
+     * @param index the arraylist index
+     * @return the corresponding TTU. If index out of range, return {@code null}
+     */
+    public ISSTagTreeUnit getChild(int index) {
+        if (0 > index || index >= childTree.size())
+            return null;
         return childTree.get(index);
     }
-    public ISSTagTreeUnit getChildTree(String tagname) {
+    public ISSTagTreeUnit getChild(String tagname) {
         ISSTagTreeUnit child = null;
         for (Iterator<ISSTagTreeUnit> iterator = childTree.iterator(); iterator.hasNext(); ) {
             child = iterator.next().find(tagname);
@@ -111,7 +119,30 @@ public class ISSTagTreeUnit {
         return child;
     }
 
+    public ArrayList<ISSTagTreeUnit> getChildrenList() {
+        return childTree;
+    }
+
     public boolean isLeaf() {
         return childTree.size() == 0;
+    }
+    public boolean isTopRoot() {
+        return rootTree == null;
+    }
+
+    public boolean hasChild() {
+        return childTree.size() != 0;
+    }
+
+    public String toString() {
+        String result = "";
+        result += "[Root: "+rootTree.tagName+", Tag: "+tagName+", children: {";
+        if (!isLeaf())
+            result += "\""+childTree.get(0).tagName+"\"";
+        for (int index = 1; index < childTree.size(); index++) {
+            result += ",\""+childTree.get(index).tagName+"\"";
+        }
+        result += "}]";
+        return result;
     }
 }
