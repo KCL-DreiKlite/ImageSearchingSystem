@@ -37,10 +37,23 @@ public class ISSTagSystem {
     // }
 
     ArrayList<ImageUnit> imageUnits = new ArrayList<ImageUnit>();
-
+    /**
+     * Transform {@code JSONObject} to {@code ISSTagTreeUnit} format.
+     * 
+     * @param json the JSONObject need to be transformed
+     * @return a full tree constructed in {@code ISSTagTreeUnit} format which the root
+     * will be {@code null}
+     */
     public static ISSTagTreeUnit transformToTTU(JSONObject json) {
         return transformToTTU(json, null);
     }
+    /**
+     * Transform {@code JSONObject} to {@code ISSTagTreeUnit} format.
+     * 
+     * @param json the JSONObject need to be transformed
+     * @param rootTree the transformed tree will be attached under this root
+     * @return a full tree constructed in {@code ISSTagTreeUnit} format
+     */
     public static ISSTagTreeUnit transformToTTU(JSONObject json, ISSTagTreeUnit rootTree) {
         String jsonType = json.getString("type");
         String jsonTagname = json.getString("tagname");
@@ -67,13 +80,16 @@ public class ISSTagSystem {
         return ttu;
         
     }
-    public static ISSTagTreeUnit transformToTTU(String json) {
-        return transformToTTU(new JSONObject(json), null);
-    }
 
+    /**
+     * 
+     * @param ttu
+     * @return
+     */
     public static JSONObject transformToJSON(ISSTagTreeUnit ttu) {
         return new JSONObject().put(ttu.getTagName(), tftjson(ttu));
     }
+    /** This method can only called by transformToJSON(ISSTagTreeUnit) */
     private static JSONObject tftjson(ISSTagTreeUnit ttu) {
         if (ttu.isLeaf())
             return null;
