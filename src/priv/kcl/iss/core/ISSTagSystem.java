@@ -36,7 +36,9 @@ public class ISSTagSystem {
     //     }
     // }
 
-    ArrayList<ImageUnit> imageUnits = new ArrayList<ImageUnit>();
+    // ArrayList<ImageUnit> imageUnits = new ArrayList<ImageUnit>();
+
+
     /**
      * Transform {@code JSONObject} to {@code ISSTagTreeUnit} format.
      * 
@@ -82,9 +84,10 @@ public class ISSTagSystem {
     }
 
     /**
+     * Transform {@code ISSTagTreeUnit} to {@code JSONObject} format.
      * 
-     * @param ttu
-     * @return
+     * @param ttu the ISSTagTreeUnit need to be transformed
+     * @return a standard tags format {@code JSONObject}
      */
     public static JSONObject transformToJSON(ISSTagTreeUnit ttu) {
         return new JSONObject().put(ttu.getTagName(), tftjson(ttu));
