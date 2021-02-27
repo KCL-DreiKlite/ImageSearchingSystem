@@ -136,7 +136,7 @@ public class ISSTagTreeUnit {
 
     public String toString() {
         String result = "";
-        result += "[Root: "+rootTree.tagName+", Tag: "+tagName+", children: {";
+        result += "[Root: "+(isTopRoot() ? null : rootTree.tagName)+", Tag: "+tagName+", children: {";
         if (!isLeaf())
             result += "\""+childTree.get(0).tagName+"\"";
         for (int index = 1; index < childTree.size(); index++) {
