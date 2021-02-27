@@ -72,37 +72,6 @@ public class ISSTagSystem {
     }
 
     public static JSONObject transformToJSON(ISSTagTreeUnit ttu) {
-        // if (ttu.isLeaf())
-        //     return null;
-        // JSONObject jsonResult = new JSONObject();
-        // jsonResult.put("tagname", ttu.getTagName());
-        
-
-        // if (ttu.hasChild() ? ttu.getChild(0).isLeaf() : false) {
-        //     jsonResult.put("type", ARRAY_TYPE);
-        //     JSONArray jsonContain = new JSONArray();
-
-        //     for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
-        //         jsonContain.put(iterator.next().getTagName());
-        //     }
-        //     jsonResult.put("contain", jsonContain);
-        // }
-        // else {
-        //     jsonResult.put("type", OBJECT_TYPE);
-        //     JSONObject jsonContain = new JSONObject();
-
-        //     for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
-        //         ISSTagTreeUnit childttu = iterator.next();
-        //         jsonContain.put(childttu.getTagName(), transformToJSON(childttu));
-        //     }
-        //     jsonResult.put("contain", jsonContain);
-
-        // }
-
-        // JSONObject result = new JSONObject();
-        // // result.put(ttu.getTagName(), jsonResult);
-        // // System.err.println(result.toString());
-        // return jsonResult;
         return new JSONObject().put(ttu.getTagName(), tftjson(ttu));
     }
     private static JSONObject tftjson(ISSTagTreeUnit ttu) {
