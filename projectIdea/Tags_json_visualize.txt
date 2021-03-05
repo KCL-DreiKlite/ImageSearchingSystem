@@ -1,0 +1,21 @@
+tagTree	---Game	---Arknights	---Character	---Amiya
+	 |	 |				 |-12F
+	 |	 |				 |-Faust
+	 |	 |				 --Forstnova
+	 |	 --AzurLine
+	 |
+	 |-BodyAppearence	---HairColor	---Black
+	 |			 |		 |-Red
+	 |			 |		 |-White
+	 |			 |		 |-Pink
+	 |			 |		 --Gold
+	 |			 |
+	 |			 |-EyeColor
+	 |			 |
+	 |			 --MSIC		---diffeyecolor
+	 |
+	 --Extension		---BMP
+				 |-JPG
+				 |-PNG
+				 |-GIF
+				 --JPEG
