@@ -75,7 +75,7 @@ public class Main {
         // catch (Exception e) {
         //     System.err.println(e.toString());
         // }
-        long hi = 1024*1024*1024*1024;
+        long hi = 1234567;
         System.err.println(hi);
         System.err.println(ISSCore.formatFileLength(hi));
     }

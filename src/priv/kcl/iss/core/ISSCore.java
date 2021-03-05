@@ -20,8 +20,6 @@ public class ISSCore {
     /** The default Json file of storing Image Details. */
     public static final String IMAGE_DETAILS_FILENAME = INFO_FOLDER_PATHNAME + "\\ImageDetails.json";
 
-    
-
     /**
      * Initialize working folder. This method will access every directories and files in
      * the give path to create basic tag system.
@@ -54,19 +52,14 @@ public class ISSCore {
     }
 
     /**
+     * Get the file's formatted length. For example:<p>
+     * <b>123</b> will return <b>123 B</b><p>
+     * <b>1024</b> will return <b>1 KB</b><p>
+     * <b>1234567</b> will return <b>1.17 MB</b><p>
+     * <b>12345678</b> will return <b>11.7 MB</b><p>
      * 
-     * @param length length of the file
-     * @param sizeLevel the lowest
-     *  <table>
-     *      <tr><td> <b>sizeLevel </td><td> <b>Represent </td></tr>
-     *      <tr><td> 0 </td><td> Bytes(B) </td></tr>
-     *      <tr><td> 1 </td><td> KiloBytes(KB) </td></tr>
-     *      <tr><td> 2 </td><td> MegaBytes(MB) </td></tr>
-     *      <tr><td> 3 </td><td> GigaBytes(GB) </td></tr>
-     *      <tr><td> 4 </td><td> TeraBytes(TB) </td></tr>
-     *  </table>
-     * @param digits
-     * @return
+     * @param length the length of the given file
+     * @return the string of formatted file length
      */
     public static String formatFileLength(long length) {
         double tmpLength = length;
@@ -103,6 +96,19 @@ public class ISSCore {
             resultLengthFloatPart = "."+String.valueOf(tmpLength-resultLengthIntPart).substring(2, 3);
         
         return resultLengthIntPart + resultLengthFloatPart + " " + resultSizeLevel;
+    }
+    /**
+     * Get the file's formatted length. For example:<p>
+     * <b>123</b> will return <b>123 B</b><p>
+     * <b>1024</b> will return <b>1 KB</b><p>
+     * <b>1234567</b> will return <b>1.17 MB</b><p>
+     * <b>12345678</b> will return <b>11.7 MB</b><p>
+     * 
+     * @param file the file which it's length need to be formatted
+     * @return the string of formatted file length
+     */
+    public static String formatFileLength(File file) {
+        return formatFileLength(file.length());
     }
     
 }

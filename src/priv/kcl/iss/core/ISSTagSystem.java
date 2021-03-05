@@ -16,7 +16,7 @@ import org.json.JSONWriter;
  */
 public class ISSTagSystem {
 
-    /** */
+    
     public static final String OBJECT_TYPE = "object";
 
     public static final String ARRAY_TYPE = "array";
@@ -115,12 +115,15 @@ public class ISSTagSystem {
                 jsonContain.put(childttu.getTagName(), transformToJSON(childttu));
             }
             jsonResult.put("contain", jsonContain);
-
         }
 
         return jsonResult;
     }
 
+
+    public ISSTagSystem() {
+        
+    }
     
 }
 
