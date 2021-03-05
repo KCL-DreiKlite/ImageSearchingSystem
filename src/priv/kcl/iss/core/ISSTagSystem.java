@@ -76,9 +76,6 @@ public class ISSTagSystem {
             }
         }
 
-        // System.err.println(ttu.toString());
-        
-
         return ttu;
         
     }
@@ -121,36 +118,39 @@ public class ISSTagSystem {
 
         }
 
-        JSONObject result = new JSONObject();
-        // result.put(ttu.getTagName(), jsonResult);
-        // System.err.println(result.toString());
         return jsonResult;
-        
     }
-}
 
-class ImageUnit {
     
-    File fileImagePath;
-
-    ArrayList<ISSTagTreeUnit> myTags;
-
-    ImageUnit(File imagePath, ArrayList<ISSTagTreeUnit> tags) {
-        
-    }
-
-
-
-    boolean addTags(ISSTagTreeUnit ttu) {
-        return myTags.add(ttu);
-    }
-
-    ISSTagTreeUnit getTag(String tagname) {
-        for (Iterator<ISSTagTreeUnit> iterator = myTags.iterator(); iterator.hasNext(); ) {
-            ISSTagTreeUnit ttu = iterator.next();
-            if (ttu.getTagName().equals(tagname))
-                return ttu;
-        }
-        return null;
-    }
 }
+
+
+
+// class ImageUnit {
+    
+//     File fileImagePath;
+
+//     ArrayList<ISSTagTreeUnit> myTags;
+
+//     ImageUnit(File imagePath, ArrayList<ISSTagTreeUnit> tags) {
+        
+//     }
+//     ImageUnit(File imagePath) {
+
+//     }
+
+
+
+//     boolean addTags(ISSTagTreeUnit ttu) {
+//         return myTags.add(ttu);
+//     }
+
+//     ISSTagTreeUnit getTag(String tagname) {
+//         for (Iterator<ISSTagTreeUnit> iterator = myTags.iterator(); iterator.hasNext(); ) {
+//             ISSTagTreeUnit ttu = iterator.next();
+//             if (ttu.getTagName().equals(tagname))
+//                 return ttu;
+//         }
+//         return null;
+//     }
+// }

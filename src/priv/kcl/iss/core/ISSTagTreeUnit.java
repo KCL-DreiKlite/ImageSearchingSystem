@@ -43,6 +43,23 @@ public class ISSTagTreeUnit {
     public void append(ISSTagTreeUnit child) {
         childTree.add(child);
     }
+    /**
+     * Append child leaf into tree.
+     * 
+     * @param tag the tagname you want to append
+     */
+    public void append(String tag) {
+        childTree.add(new ISSTagTreeUnit(this, tag));
+    }
+    /**
+     * Append child leaf into tree.
+     * 
+     * @param tag the tagname you want to append
+     * @param root specific the root of the child leaf
+     */
+    public void append(String tag, ISSTagTreeUnit root) {
+        childTree.add(new ISSTagTreeUnit(root, tag));
+    }
 
     /**
      * Remove child leaf/tree from tree.

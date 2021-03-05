@@ -1,83 +1,100 @@
 {
     "tagTree": {
+        "type": "object",
+        "tagname": "tagTree",
+        "contain": {
         
-        "Game": {
-            "type": "Object",
-            "rootname": "Game",
-            "contain": {
-                "Arknights": {
-                    "type": "Object",
-                    "rootname": "Arknights",
-                    "contain": {
-                        "Character": {
-                            "type": "Array",
-                            "contain": [
-                                "阿米婭/Amiya",
-                                "12F/12F",
-                                "浮士德/Faust",
-                                "霜星/Forstnova"
-                            ]
+            "Game": {
+                "type": "object",
+                "tagname": "Game",
+                "contain": {
+                    "Arknights": {
+                        "type": "object",
+                        "tagname": "Arknights",
+                        "contain": {
+                            "Character": {
+                                "type": "array",
+                                "tagname": "Character",
+                                "contain": [
+                                    "阿米婭/Amiya",
+                                    "12F/12F",
+                                    "浮士德/Faust",
+                                    "霜星/Forstnova"
+                                ]
+                            }
                         }
-                    }
-                },
-                "AzurLine": {
-                    "type": "Object",
-                    "rootname": "AzurLine",
-                    "contain": {
+                    },
+                    "AzurLine": {
+                        "type": "array",
+                        "tagname": "AzurLine",
+                        "contain": [
+                            "Bismark"
+                        ]
 
+                        
+                    }
+
+                }
+            },
+            "BodyAppearence": {
+                "type": "object",
+                "tagname": "BodyAppearence",
+                "contain": {
+                    "HairColor": {
+                        "type": "array",
+                        "tagname": "HairColor",
+                        "contain": [
+                            "黑髮",
+                            "紅髮",
+                            "白髮",
+                            "銀髮",
+                            "金髮",
+                            "粉紅髮",
+                            "紅髮"
+                        ]
+                    },
+                    "EyeColor": {
+                        "type": "array",
+                        "tagname": "EyeColor",
+                        "contain": [
+                            "Red"
+                        ]
+                    },
+                    "MSIC": {
+                        "type": "array",
+                        "tagname": "MSIC",
+                        "contain": [
+                            "異色瞳"
+                        ]
                     }
                 }
-
+            },
+            "Extension": {
+                "type": "array",
+                "tagname": "Extension",
+                "contain": [
+                    "BMP",
+                    "JPG",
+                    "PNG",
+                    "GIF",
+                    "JPEG"
+                ]
             }
-        },
-        "BodyAppearence": {
-            "type": "Object",
-            "rootname": "BodyAppearence",
-            "contain": {
-                "HairColor": {
-                    "type": "Array",
-                    "rootname": "HairColor",
-                    "contain": [
-                        "黑髮",
-                        "紅髮",
-                        "白髮",
-                        "銀髮",
-                        "金髮",
-                        "粉紅髮",
-                        "紅髮"
-                    ]
-                },
-                "EyeColor": {
-                    "type": "Array",
-                    "rootname": "EyeColor",
-                    "contain": [
-
-                    ]
-                },
-                "MSIC": {
-                    "type": "Array",
-                    "rootname": "MSIC",
-                    "contain": [
-                        "異色瞳"
-                    ]
-                }
-            }
-        },
-        "Extension": {
-            "type": "Array",
-            "rootname": "Extension",
-            "contain": [
-                "BMP",
-                "JPG",
-                "PNG",
-                "GIF",
-                "JPEG"
-            ]
         }
     },
-    "ignoredTags": [
-        "EXE",
-        "RAR"
-
-    ]
+    "ignoredExtension": {
+        "type": "array",
+        "tagname": "ignoredExtension",
+        "contain": [
+            "EXE",
+            "ZIP",
+            "RAR",
+            "JSON",
+            "CLASS",
+            "JAR",
+            "JAVA",
+            "",
+            "JSON"
+        ]
+    }
 }
