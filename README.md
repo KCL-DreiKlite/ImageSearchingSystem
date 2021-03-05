@@ -18,5 +18,7 @@ The goal of Image Searching System(ISS) is to provides these features:
 
 The following is the version information of ISS.
 
+## Ver. 0.0.2
+Merged files. Not important.
 ## Ver. 0.0.1
 Start to write READ.md and push onto github.
