@@ -162,4 +162,8 @@ public class ISSTagTreeUnit {
         result += "}]";
         return result;
     }
+
+    public void printTreeToConsole() {
+
+    }
 }

@@ -17,27 +17,10 @@ import org.json.JSONWriter;
 public class ISSTagSystem {
 
     
-    public static final String OBJECT_TYPE = "object";
+    public static final String OBJECT_TYPE = "OBJECT";
 
-    public static final String ARRAY_TYPE = "array";
+    public static final String ARRAY_TYPE = "ARRAY";
     
-    // final File sourceTagsJsonFile = new File(ISSCore.TAG_SYSTEM_FILENAME);
-    // final JSONObject tagsJson;
-    // final ISSTagTreeUnit tags;
-
-    // public ISSTagSystem() {
-    //     try {
-    //         BufferedReader br = new BufferedReader(new FileReader(sourceTagsJsonFile));
-    //         tagsJson = new JSONObject(br.readLine());
-    //         br.close();
-    //     }
-    //     catch (Exception e) {
-    //         System.err.println(e.toString());
-    //     }
-    // }
-
-    // ArrayList<ImageUnit> imageUnits = new ArrayList<ImageUnit>();
-
 
     /**
      * Transform {@code JSONObject} to {@code ISSTagTreeUnit} format.
@@ -57,20 +40,20 @@ public class ISSTagSystem {
      * @return a full tree constructed in {@code ISSTagTreeUnit} format
      */
     public static ISSTagTreeUnit transformToTTU(JSONObject json, ISSTagTreeUnit rootTree) {
-        String jsonType = json.getString("type");
-        String jsonTagname = json.getString("tagname");
+        String jsonType = json.getString("TYPE");
+        String jsonTagname = json.getString("TAGNAME");
 
         ISSTagTreeUnit ttu = new ISSTagTreeUnit(rootTree, jsonTagname);
 
         if (jsonType.equals(OBJECT_TYPE)) {
-            JSONObject jsonContain = json.getJSONObject("contain");
+            JSONObject jsonContain = json.getJSONObject("CONTAIN");
             for (Iterator<String> iterator = jsonContain.keys(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 ttu.append(transformToTTU(jsonContain.getJSONObject(key), ttu));
             }
         }
         else if (jsonType.equals(ARRAY_TYPE)) {
-            JSONArray jsonContain = json.getJSONArray("contain");
+            JSONArray jsonContain = json.getJSONArray("CONTAIN");
             for (Iterator<?> iterator = jsonContain.iterator(); iterator.hasNext(); ) {
                 ttu.append(new ISSTagTreeUnit(ttu, iterator.next().toString()));
             }
@@ -87,38 +70,67 @@ public class ISSTagSystem {
      * @return a standard tags format {@code JSONObject}
      */
     public static JSONObject transformToJSON(ISSTagTreeUnit ttu) {
-        return new JSONObject().put(ttu.getTagName(), tftjson(ttu));
-    }
-    /** This method can only called by transformToJSON(ISSTagTreeUnit) */
-    private static JSONObject tftjson(ISSTagTreeUnit ttu) {
+        // return new JSONObject().put(ttu.getTagName(), tftjson(ttu));
+        // return tftjson(ttu);
         if (ttu.isLeaf())
             return null;
         JSONObject jsonResult = new JSONObject();
-        jsonResult.put("tagname", ttu.getTagName());
+        jsonResult.put("TAGNAME", ttu.getTagName());
         
 
         if (ttu.hasChild() ? ttu.getChild(0).isLeaf() : false) {
-            jsonResult.put("type", ARRAY_TYPE);
+            jsonResult.put("TYPE", ARRAY_TYPE);
             JSONArray jsonContain = new JSONArray();
 
             for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
                 jsonContain.put(iterator.next().getTagName());
             }
-            jsonResult.put("contain", jsonContain);
+            jsonResult.put("CONTAIN", jsonContain);
         }
         else {
-            jsonResult.put("type", OBJECT_TYPE);
+            jsonResult.put("TYPE", OBJECT_TYPE);
             JSONObject jsonContain = new JSONObject();
 
             for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
                 ISSTagTreeUnit childttu = iterator.next();
                 jsonContain.put(childttu.getTagName(), transformToJSON(childttu));
             }
-            jsonResult.put("contain", jsonContain);
+            jsonResult.put("CONTAIN", jsonContain);
         }
 
         return jsonResult;
     }
+
+    /** This method can only called by transformToJSON(ISSTagTreeUnit) */
+    // private static JSONObject tftjson(ISSTagTreeUnit ttu) {
+    //     if (ttu.isLeaf())
+    //         return null;
+    //     JSONObject jsonResult = new JSONObject();
+    //     jsonResult.put("TAGNAME", ttu.getTagName());
+        
+
+    //     if (ttu.hasChild() ? ttu.getChild(0).isLeaf() : false) {
+    //         jsonResult.put("TYPE", ARRAY_TYPE);
+    //         JSONArray jsonContain = new JSONArray();
+
+    //         for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
+    //             jsonContain.put(iterator.next().getTagName());
+    //         }
+    //         jsonResult.put("CONTAIN", jsonContain);
+    //     }
+    //     else {
+    //         jsonResult.put("TYPE", OBJECT_TYPE);
+    //         JSONObject jsonContain = new JSONObject();
+
+    //         for (Iterator<ISSTagTreeUnit> iterator = ttu.getChildrenList().iterator(); iterator.hasNext(); ) {
+    //             ISSTagTreeUnit childttu = iterator.next();
+    //             jsonContain.put(childttu.getTagName(), tftjson(childttu));
+    //         }
+    //         jsonResult.put("CONTAIN", jsonContain);
+    //     }
+
+    //     return jsonResult;
+    // }
 
 
     public ISSTagSystem() {

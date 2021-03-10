@@ -3,7 +3,9 @@ package priv.kcl.iss;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONObject;
 
@@ -41,9 +43,9 @@ public class Main {
         // ttu.append(t2ttu);
         // ttu.append(t3ttu);
 
-        // System.err.println(ttu.getChildTree(0).getChildTree(0).getTagName());
+        // System.err.println(ttu.getChild(0).getChild(0).getTagName());
         // t1ttu.remove("Marve");
-        // System.err.println(ttu.getChildTree(0).getChildTree(0).getTagName());
+        // System.err.println(ttu.getChild(0).getChild(0).getTagName());
         
         // File f = new File("..\\projectIdea\\bruh.json");
         // try {
@@ -62,7 +64,7 @@ public class Main {
         //     JSONObject json = new JSONObject(br.readLine());
         //     br.close();
 
-        //     System.err.println(json.toString());
+        //     System.err.println(json.getJSONObject("tagTree").toString());
 
         //     ISSTagTreeUnit ttu = ISSTagSystem.transformToTTU(json.getJSONObject("tagTree"));
 
@@ -75,8 +77,15 @@ public class Main {
         // catch (Exception e) {
         //     System.err.println(e.toString());
         // }
-        long hi = 1234567;
-        System.err.println(hi);
-        System.err.println(ISSCore.formatFileLength(hi));
+        // System.err.println(ISSCore.checkInfoFolderExist());
+
+        // ISSCore.deleteInfoFolder();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        Date date = new Date();
+        
+        sdf.applyPattern("yyyy/MM/dd hh:mm:ss");
+        System.err.println(sdf.format(date));
+        ISSCore.initialize("D:\\圖片\\2D", true);
+
     }
 }

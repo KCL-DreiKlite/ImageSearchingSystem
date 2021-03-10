@@ -1,0 +1,100 @@
+{
+    "2D": {
+        "foldername": "2D",
+        "files": {
+            "C1.bmp": {
+                "filename": "C1.bmp",
+                "addTime": "2021/3/9 15:27:20",
+                "tags": [
+                    "bmp",
+                    "Red hair",
+                    "Blue eyes"
+                ]
+            },
+            "C2.gif": {
+                "filename": "C2.gif",
+                "addTime": "2021/3/9 15:27:21",
+                "tags": [
+                    "gif",
+                    "Pink hair",
+                    "Red eyes"
+                ]
+            }
+        },
+        "folders": {
+            "A": {
+                "foldername": "A",
+                "files": {
+                    "A4.bmp": {
+                        "filename": "A4.bmp",
+                        "addTime":"2021/3/9 15:36:17",
+                        "tags": [
+                            "bmp"
+                        ]
+                    }
+                },
+                "folders": {
+                    "AA": {
+                        "foldername": "AA",
+                        "files": {
+                            "A1.jpg": {
+                                "filename": "A1.jpg",
+                                "addTime":"2021/3/9 15:37:40",
+                                "tags": [
+                                    "jpg"
+                                ]
+                            },
+                            "A2.jpg": {
+                                "filename": "A2.jpg",
+                                "addTime":"2021/3/9 15:40:20",
+                                "tags": [
+                                    "jpg"
+                                ]
+                            }
+                        },
+                        "folders": {
+
+                        }
+                    },
+                    "AB": {
+                        "foldername": "AB",
+                        "files": {
+                            "A3.png": {
+                                "filename": "A3.png",
+                                "addTime":"2021/3/9 15:45:12",
+                                "tags": [
+                                    "png"
+                                ]
+                            }
+                        },
+                        "folders": {
+
+                        }
+                    }
+                }
+            },
+            "B": {
+                "foldername": "B",
+                "files": {
+                    "B2.png": {},
+                    "B3.jpg": {}
+                },
+                "folders": {
+                    "BA": {
+                        "foldername": "BA",
+                        "files": {},
+                        "folders": {
+                            "BAA": {
+                                "foldername": "BAA",
+                                "files": {
+                                    "B1.gif": {}
+                                },
+                                "folders": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

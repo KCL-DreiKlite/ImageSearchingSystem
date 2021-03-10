@@ -1,7 +1,7 @@
 {
-    "tagTree": {
+    "TagTree": {
         "type": "object",
-        "tagname": "tagTree",
+        "tagname": "TagTree",
         "contain": {
         
             "Game": {
@@ -82,9 +82,9 @@
             }
         }
     },
-    "ignoredExtension": {
+    "IgnoredExtension": {
         "type": "array",
-        "tagname": "ignoredExtension",
+        "tagname": "IgnoredExtension",
         "contain": [
             "EXE",
             "ZIP",
