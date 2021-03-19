@@ -1,17 +1,5 @@
 package priv.kcl.iss;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.json.JSONObject;
-
-import priv.kcl.iss.core.ISSCore;
-import priv.kcl.iss.core.ISSTagSystem;
-import priv.kcl.iss.core.ISSTagTreeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -80,12 +68,38 @@ public class Main {
         // System.err.println(ISSCore.checkInfoFolderExist());
 
         // ISSCore.deleteInfoFolder();
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        Date date = new Date();
+        // SimpleDateFormat sdf = new SimpleDateFormat();
+        // Date date = new Date();
         
-        sdf.applyPattern("yyyy/MM/dd hh:mm:ss");
-        System.err.println(sdf.format(date));
-        ISSCore.initialize("D:\\圖片\\2D", true);
+        // sdf.applyPattern("yyyy/MM/dd hh:mm:ss");
+        // System.err.println(sdf.format(date));
+        // ISSCore.initialize(".\\test_folder", true);
+        
+        // try {
+        //     ArrayList<ISSImageFileUnit> files = ISSCore.makeFileCollection(new File(".\\test_folder").listFiles());
+        //     files.stream().forEach(file -> System.out.println( file.getFilePath()+"/"+file.getIdentity()));
+            
+        // }
+        // catch (Exception e) {
+        //     System.err.println(e.toString());
+        // }
+
+        // System.out.println("ii".hashCode());
+
+        // ISSTagTreeUnit ttu1 = new ISSTagTreeUnit(null, "Hair");
+        // ISSTagTreeUnit ttu2 = new ISSTagTreeUnit(ttu1, "HairColor");
+        // ISSTagTreeUnit ttu3 = new ISSTagTreeUnit(ttu2, "Blue");
+        // System.out.println(ttu3.getDisplayName());
+        // System.out.println(ttu1.getAllParentPath());
+
+        // ArrayList<String> hi = new ArrayList<String>();
+        // hi.add("bruh");
+        // hi.add("hehe");
+        // hi.add("yee");
+
+        // hi.stream().forEach(moo -> {
+        //     System.out.println(moo.getClass() == Integer.class);
+        // });
 
     }
 }

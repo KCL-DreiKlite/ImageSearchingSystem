@@ -50,6 +50,7 @@ public class ISSCore {
      * initialzed file.
      */
     public static void initialize(String workingFolder, boolean forceOverwrite) {
+
         File fileWorkingFolder = new File(workingFolder);
         
         File fileInfoFolder = new File(INFO_FOLDER_PATHNAME);
@@ -80,7 +81,7 @@ public class ISSCore {
                 System.out.println("done");
             }
             catch (Exception e) {
-                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating BasicInfo.json\n"+e.toString());
+                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating BasicInfo.json\n"+e.getMessage());
             }
         }
         else
@@ -117,6 +118,7 @@ public class ISSCore {
                 // jsonTags.put("IgnoredExtension", ISSTagSystem.transformToJSON(ttuIgnoredExtension));
                 jsonTags.put("TagTree", ISSTagSystem.transformToJSON(ttuTagTree));
                 jsonTags.put("IgnoredExtension", ISSTagSystem.transformToJSON(ttuIgnoredExtension));
+                
                 BufferedWriter br = new BufferedWriter(new FileWriter(fileTags));
                 br.write(jsonTags.toString());
                 br.flush();
@@ -125,7 +127,7 @@ public class ISSCore {
                 System.out.println("done");
             }
             catch (Exception e) {
-                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating Tags.json\n"+e.toString());
+                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating Tags.json\n"+e.getMessage());
             }
         }
         else
@@ -140,10 +142,10 @@ public class ISSCore {
             try {
                 fileImageDetails.createNewFile();
 
-                ArrayList<ISSImageFileUnit> fileList = makeFileCollection(fileWorkingFolder.listFiles());
+                // ArrayList<ISSImageFileUnit> fileList = makeFileCollection(fileWorkingFolder.listFiles());
                 JSONObject jsonFileList = new JSONObject();
-                fileList.stream()
-                        .forEach(file -> jsonFileList.put(file.getFileName(), file.toJSONObject()));
+                // fileList.stream()
+                //         .forEach(file -> jsonFileList.put(file.getFileName(), file.toJSONObject()));
                 
                 BufferedWriter br = new BufferedWriter(new FileWriter(fileImageDetails));
                 br.write(jsonFileList.toString());
@@ -153,30 +155,17 @@ public class ISSCore {
                 System.out.println("done");
             }
             catch (Exception e) {
-                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating Tags.json\n"+e.toString());
+                System.err.println("Initialization failed.\nAt core.ISSCore.initialize() when creating ImageDetails.json\n"+e.getMessage());
                 
             }
         }
+        else
+            System.out.println("there's a same filename exist. Skipped.");
 
-
-        // System.out.println("Creating BasicInfo.json... "+(fileBasicInfo.createNewFile()? "done": "file already exist"));
-
-        // System.err.println(fileInfoFolder.mkdir());
-        // JSONObject jsonBasicInfo = new JSONObject();
-        // JSONObject jsonTags = new JSONObject();
-        // JSONObject jsonImageDetails = new JSONObject();
-
-        // jsonBasicInfo.put("WORKINGFOLDER", workingFolder);
-
-        // try {
-            
-        // }
-        // catch (Exception e) {
-
-        // }
+        System.out.println("Initialization complete.");
     }
 
-    private static ArrayList<ISSImageFileUnit> makeFileCollection(File[] files) throws Exception {
+    public static ArrayList<ISSImageFileUnit> makeFileCollection(File[] files) throws Exception {
         ArrayList<ISSImageFileUnit> result = new ArrayList<ISSImageFileUnit>();
 
         for (File file: files) {
@@ -185,7 +174,8 @@ public class ISSCore {
             else
                 result.add(new ISSImageFileUnit(file));
         }
-
+        
+        
         return result;
     }
 
@@ -263,5 +253,7 @@ public class ISSCore {
     public static String formatFileLength(File file) {
         return formatFileLength(file.length());
     }
+    
+    
     
 }

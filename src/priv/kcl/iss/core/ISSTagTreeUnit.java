@@ -111,8 +111,53 @@ public class ISSTagTreeUnit {
         return rootTree;
     }
 
+    /**
+     * Get the tag name.
+     * @return
+     */
     public String getTagName() {
         return tagName;
+    }
+
+    /**
+     * Get a String for display.
+     * <p>
+     * The structure will be "{@code rootTree.tagName}/{@code tagName}". For example, if there's a tagtree
+     * as the structure below:
+     * <p>
+     * <code>Hair -> HairColor -> Blue</code>
+     * <p>
+     * , and we want to get the display name of the lowest tree (which is {@code Blue}), then it'll return
+     * {@code "HairColor/Blue"}. But if we want to get the display name of top root, then it'll return
+     * {@code "null/Hair"} since the root element of {@code Hair} equals to {@code null}.
+     * @return
+     */
+    public String getDisplayName() {
+        if (rootTree == null)
+            return "null/"+tagName;
+        else
+            return rootTree.tagName+"/"+tagName;
+    }
+
+    /**
+     * Get a path which shows where this tag is. The path is started from top-root tree, and the destnation
+     * is this tagtree.
+     * <p>
+     * For example, if there exist a tagtree constructed by
+     * <p>
+     * <code>Hair -> HairColor -> Blue</code>
+     * <p>
+     * , then the returned string should be {@code "Hair/HairColor/Blue"}.
+     * @return
+     */
+    public String getAllParentPath() {
+        ISSTagTreeUnit ttu = rootTree;
+        String result = tagName;
+        while (ttu != null) {
+            result = ttu.tagName+"/"+result;
+            ttu = ttu.rootTree;
+        }
+        return result;
     }
 
     /**
@@ -126,6 +171,12 @@ public class ISSTagTreeUnit {
             return null;
         return childTree.get(index);
     }
+    /**
+     * Get child by specific arraylist index.
+     * 
+     * @param tagname the tagname which we want to find out
+     * @return the corresponding TTU. If the specific ttu doesn't exist, return {@code null}
+     */
     public ISSTagTreeUnit getChild(String tagname) {
         ISSTagTreeUnit child = null;
         for (Iterator<ISSTagTreeUnit> iterator = childTree.iterator(); iterator.hasNext(); ) {
@@ -136,17 +187,33 @@ public class ISSTagTreeUnit {
         return child;
     }
 
+    /***
+     * Get the Arraylist of my children.
+     * @return
+     */
     public ArrayList<ISSTagTreeUnit> getChildrenList() {
         return childTree;
     }
 
+    /**
+     * Find out if this tree is a leaf.
+     * @return {@code true} if I don't have any children. Otherwise return {@code false}
+     */
     public boolean isLeaf() {
         return childTree.size() == 0;
     }
+    /**
+     * Find out if I'm the top of the whole tree.
+     * @return {@code true} if my root is null. Otherwise return {@code false}
+     */
     public boolean isTopRoot() {
         return rootTree == null;
     }
 
+    /**
+     * Find out if I have any child.
+     * @return {@code true} if I got at least one child tree. Otherwise return {@code false}
+     */
     public boolean hasChild() {
         return childTree.size() != 0;
     }

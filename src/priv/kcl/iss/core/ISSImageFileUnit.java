@@ -28,6 +28,27 @@ public class ISSImageFileUnit {
     private ArrayList<ISSTagTreeUnit> myTags;
 
     /**
+     * Create an Image Unit directly from json object.
+     * 
+     * @param sourceJson the source json object of this unit
+     * @param standardTagTree all of my tags are gonna found by this tagtree. If I have a tag
+     * that this tagtree doesn't exist, then the tag will be deleted automatically.
+     */
+    public ISSImageFileUnit(JSONObject sourceJson, ISSTagTreeUnit standardTagTree) {
+        fileImage = new File(sourceJson.getString(ISSImageSystem.KEY_FILEPATH));
+        addedTime = sourceJson.getString(ISSImageSystem.KEY_ADDEDTIME);
+        JSONArray array = sourceJson.getJSONArray(ISSImageSystem.KEY_TAGS);
+        array.forEach(tagname -> {
+            if (tagname.getClass() != String.class)
+                return;
+            ISSTagTreeUnit ttu = standardTagTree.find((String) tagname);
+            if (ttu != null)
+                myTags.add(ttu);
+            else
+                return;
+        });
+    }
+    /**
      * Create an Image Unit.
      * 
      * @param file the image file which I should be
@@ -89,6 +110,7 @@ public class ISSImageFileUnit {
      * Create an Image Unit.
      * 
      * @param file the image file which I should be
+     * @param tags all of my tags
      * @throws FileNotFoundException thrown if the file does not exist in file system
      * @throws FileAlreadyExistsException thrown if the path point to a folder
      */
@@ -103,6 +125,7 @@ public class ISSImageFileUnit {
      * Create an Image Unit.
      * 
      * @param filePath the path of the image file which I should be
+     * @param tags all of my tags
      * @throws FileNotFoundException thrown if the file does not exist in file system
      * @throws FileAlreadyExistsException thrown if the path point to a folder
      */
@@ -114,6 +137,39 @@ public class ISSImageFileUnit {
         checkFile();
     }
 
+    /**
+     * Create an Image Unit.
+     * 
+     * @param file the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @param tags all of my tags
+     * @throws FileNotFoundException thrown if the file does not exist in file system
+     * @throws FileAlreadyExistsException thrown if the path point to a folder
+     */
+    public ISSImageFileUnit(File file, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
+        this.fileImage = file;
+        this.myTags = tags;
+        this.addedTime = addedTime;
+
+        checkFile();
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param filePath the path of the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @param tags all of my tags
+     * @throws FileNotFoundException thrown if the file does not exist in file system
+     * @throws FileAlreadyExistsException thrown if the path point to a folder
+     */
+    public ISSImageFileUnit(String filePath, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
+        this.fileImage = new File(filePath);
+        this.myTags = tags;
+        this.addedTime = addedTime;
+
+        checkFile();
+    }
+
     /** Check if the image file is valid. */
     private void checkFile() throws FileNotFoundException, FileAlreadyExistsException {
         if (!this.fileImage.exists())
@@ -121,6 +177,8 @@ public class ISSImageFileUnit {
         else if (this.fileImage.isDirectory())
             throw new FileAlreadyExistsException("Folder is not acceptable");
     }
+
+    
 
     /**
      * Add new tag into this image unit.
@@ -158,6 +216,20 @@ public class ISSImageFileUnit {
     }
 
     /**
+     * Get a unique hash code of an image file.
+     * @return
+     */
+    public int getIdentity() {
+        final ImageIcon image = getImage();
+        // final int imageWidth = image.getIconWidth();
+        // final int imageHeight = image.getIconHeight();
+        // final long fileLength = fileImage.length();
+        // final String fileName = fileImage.getName();
+        final String result = fileImage.getName() + fileImage.length() + image.getIconWidth() + image.getIconHeight();
+        return result.hashCode();
+    }
+
+    /**
      * Get the {@code ImageIcon} from the file.
      * @return the image from the file
      */
@@ -169,9 +241,18 @@ public class ISSImageFileUnit {
      * @return the {@code Dimension} that store image's height and width.
      */
     public Dimension getImageSize() {
-        ImageIcon ii = getImage();
-        return new Dimension(ii.getIconWidth(), ii.getIconHeight());
+        ImageIcon image = getImage();
+        return new Dimension(image.getIconWidth(), image.getIconHeight());
     }
+    /**
+     * Get the aspect ratio of image.
+     * @return the aspect ratio
+     */
+    public double getImageAspectRatio() {
+        final ImageIcon image = getImage();
+        return image.getIconWidth() / image.getIconHeight();
+    }
+
     /**
      * 
      * @return
@@ -230,6 +311,7 @@ public class ISSImageFileUnit {
     public String toString() {
         return "[Filename="+fileImage.getName()+",Location="+getFilePath()+",Length="+getFileLengthInFormat()+",AddedTime="+getAddedTime()+"]";
     }
+    
     public JSONObject toJSONObject() {
         JSONObject result = new JSONObject();
         result.put("FILENAME", getFileName());

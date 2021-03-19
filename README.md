@@ -13,9 +13,23 @@ The goal of Image Searching System(ISS) is to provides these features:
 * A Image System that you can append or deleate tags onto each image.
 * A well looking and useful GUI that served the features above properly.
 
+# Previous work
+The purpose of this sector is to let me know where I was working on of my project.
+### TODO:
+* bruh
+
 # Version Information
 
 The following is the version information of ISS.
+
+### Ver. 0.0.5
+* Add some constructors into core.ISSImageFileUnit. One of them is to resolve all attributes from given source jsonobject directly (see core.ISSImageFileUnit.ISSImageFileUnit(JSONObject, ISSTagTreeUnit)).
+* Start writing non-static functions to core.ISSTagSystem.
+* Created core.ISSImageSystem.
+* Add a function in core.ISSImageFileUnit to provide the identity of an image file (core.ISSImageFileUnit.getIdentity()).
+* 我受不了了我要開始寫中文了。
+* 將 .issinfos\Tags.json 中的 Keys 改成 core.ISSTagSystem 的公開靜態型別，如將同一個 class 中的 transformToTTU() 和 transformToJSON() 中需要存取 json key 的字串("CONTAIN","TYPE"等)分離出來。
+* 
 
 ### Ver. 0.0.4
 * Simplify the content of .gitignore.
