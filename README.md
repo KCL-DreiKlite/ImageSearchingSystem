@@ -16,11 +16,18 @@ The goal of Image Searching System(ISS) is to provides these features:
 # Previous work
 The purpose of this sector is to let me know where I was working on of my project.
 ### TODO:
-* bruh
+* See problem viewer - TODO
 
 # Version Information
 
 The following is the version information of ISS.
+
+### Ver. 0.0.6
+* Change the reurn data type of ISSCore.makeFileCollection(File[]) to Arraylist\<File\>
+* Add a method in core.ISSCore to get the date string in system date format.
+* Add a logger in core.ISSCore.
+* Create ISSException to handle exceptions of ISS.
+
 
 ### Ver. 0.0.5
 * Add some constructors into core.ISSImageFileUnit. One of them is to resolve all attributes from given source jsonobject directly (see core.ISSImageFileUnit.ISSImageFileUnit(JSONObject, ISSTagTreeUnit)).

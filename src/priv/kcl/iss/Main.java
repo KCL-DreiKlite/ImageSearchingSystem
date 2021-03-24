@@ -1,6 +1,10 @@
 package priv.kcl.iss;
 
 
+import java.util.logging.Logger;
+
+import priv.kcl.iss.core.ISSCore;
+
 public class Main {
     public static void main(String[] args) {
         System.err.println("Hello world!");
@@ -101,5 +105,56 @@ public class Main {
         //     System.out.println(moo.getClass() == Integer.class);
         // });
 
+        // ISSCore.logger.info("Hello there");
+        // ISSCore.logger.warning("Test warning");
+
+        // FileHandler fh = new FileHandler(ISSCore.systemDate.getTime()+"log");
+        // new File(".\\.log").mkdir();
+        // File logFile = new File(".\\.log\\"+ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_FILE)+".log");
+        // try {
+        //     FileHandler fh = new FileHandler(logFile.getAbsolutePath());
+        //     fh.setFormatter(new Formatter() {
+        //         @Override
+        //         public String format(LogRecord record) {
+        //             String bruh = "["+ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING)+"] "+
+        //                           record.getLevel()+" / "+
+        //                           "\""+record.getMessage()+"\""+
+        //                           "\n";
+        //             return bruh;
+        //         }
+        //     });
+        //     fh.setLevel(Level.FINEST);
+        //     ISSCore.logger.setLevel(Level.ALL);
+        //     ISSCore.logger.addHandler(fh);
+        //     ISSCore.logger.severe("This is a severe message");
+        //     ISSCore.logger.config("This is a config message");
+        //     ISSCore.logger.info("Why hello again");
+        //     ISSCore.logger.info("Test info");
+        //     ISSCore.logger.warning("Testing warning again");
+        //     ISSCore.logger.fine("this is a fine msg");
+        //     ISSCore.logger.finer("This msg is even finer");
+        //     ISSCore.logger.finest("This is the finest message");
+        // }
+        // catch (Exception e) {
+        //     System.err.println(e.toString());
+        // }
+        // ISSCore.logger.severe("This is a SEVERE message");
+        // ISSCore.logger.config("This is a CONFIG message");
+        // ISSCore.logger.warning("This is a WARNING message");
+        // ISSCore.logger.info("This is an INFO message");
+        // ISSCore.logger.fine("This is a FINE message");
+        // ISSCore.logger.finer("This is a FINER message");
+        // ISSCore.logger.finest("This is a FINNEST message");
+        // ISSCore.startUpISS();
+        // ISSCore.logger.severe("This is a SEVERE message");
+        // ISSCore.logger.config("This is a CONFI\nG message");
+        // ISSCore.logger.warning("This is a WARNI\nNG message");
+        // ISSCore.logger.info("This is an INFO message");
+        // ISSCore.logger.fine("This is a FINE message");
+        // ISSCore.logger.finer("This is a FINER message");
+        // ISSCore.logger.finest("This is a FINNEST\n message");
+        // new Thread(() -> {
+        //     ISSCore.logger.info("Testing");
+        // }).start();
     }
 }

@@ -11,6 +11,7 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -34,7 +35,7 @@ public class ISSImageFileUnit {
      * @param standardTagTree all of my tags are gonna found by this tagtree. If I have a tag
      * that this tagtree doesn't exist, then the tag will be deleted automatically.
      */
-    public ISSImageFileUnit(JSONObject sourceJson, ISSTagTreeUnit standardTagTree) {
+    public ISSImageFileUnit(JSONObject sourceJson, ISSTagTreeUnit standardTagTree) throws JSONException {
         fileImage = new File(sourceJson.getString(ISSImageSystem.KEY_FILEPATH));
         addedTime = sourceJson.getString(ISSImageSystem.KEY_ADDEDTIME);
         JSONArray array = sourceJson.getJSONArray(ISSImageSystem.KEY_TAGS);
@@ -58,7 +59,7 @@ public class ISSImageFileUnit {
     public ISSImageFileUnit(File file) throws FileNotFoundException, FileAlreadyExistsException {
         this.fileImage = file;
         this.myTags = new ArrayList<ISSTagTreeUnit>();
-        this.addedTime = new SimpleDateFormat(ISSCore.SYSTEM_DATE_FORMAT).format(ISSCore.systemDate);
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
 
         checkFile();
     }
@@ -72,7 +73,7 @@ public class ISSImageFileUnit {
     public ISSImageFileUnit(String filePath) throws FileNotFoundException, FileAlreadyExistsException {
         this.fileImage = new File(filePath);
         this.myTags = new ArrayList<ISSTagTreeUnit>();
-        this.addedTime = new SimpleDateFormat(ISSCore.SYSTEM_DATE_FORMAT).format(ISSCore.systemDate);
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
 
         checkFile();
     }
@@ -117,7 +118,7 @@ public class ISSImageFileUnit {
     public ISSImageFileUnit(File file, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
         this.fileImage = file;
         this.myTags = tags;
-        this.addedTime = new SimpleDateFormat(ISSCore.SYSTEM_DATE_FORMAT).format(ISSCore.systemDate);
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
 
         checkFile();
     }
@@ -132,7 +133,7 @@ public class ISSImageFileUnit {
     public ISSImageFileUnit(String filePath, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
         this.fileImage = new File(filePath);
         this.myTags = tags;
-        this.addedTime = new SimpleDateFormat(ISSCore.SYSTEM_DATE_FORMAT).format(ISSCore.systemDate);
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
 
         checkFile();
     }
@@ -314,12 +315,13 @@ public class ISSImageFileUnit {
     
     public JSONObject toJSONObject() {
         JSONObject result = new JSONObject();
-        result.put("FILENAME", getFileName());
-        result.put("FILEPATH", getFilePath());
-        result.put("ADDEDTIME", addedTime);
+        result.put(ISSImageSystem.KEY_FILENAME, getFileName());
+        result.put(ISSImageSystem.KEY_FILEPATH, getFilePath());
+        result.put(ISSImageSystem.KEY_ADDEDTIME, addedTime);
         JSONArray tagArray = new JSONArray();
         myTags.stream().forEach(tag -> tagArray.put(tag));
-        result.put("TAGS", tagArray);
+        result.put(ISSImageSystem.KEY_TAGS, tagArray);
+        result.put(ISSImageSystem.KEY_IDENTITY, getIdentity());
         return result;
     }
 }

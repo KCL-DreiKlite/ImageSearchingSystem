@@ -3,9 +3,15 @@ package priv.kcl.iss.core;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.nio.file.FileAlreadyExistsException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import org.json.JSONObject;
 
@@ -13,6 +19,19 @@ import org.json.JSONObject;
  * The core of Image Searching System(ISS). Provides some basic method and common attributes.
  */
 public class ISSCore {
+    /** Store the JSON files in working folder. */
+    public static final int STORE_IN_WORKING_FOLDER = 0;
+    /** Store the JSON files in program folder. */
+    public static final int STORE_IN_PROGRAM_FOLDER = 1;
+    
+    /** The Date format for any string need date. */
+    public static final String PATTERN_FOR_STRING = "yyyy/MM/dd HH:mm:ss";
+    
+    /** The Date format for any file name need date. */
+    public static final String PATTERN_FOR_FILE = "yyyyMMdd_HHmmss";
+    
+    /** The universal Date. */
+    public static final Date systemDate = new Date();
 
     /** The default Jsons home. */
     public static final String INFO_FOLDER_PATHNAME = ".\\.issinfos";
@@ -23,17 +42,76 @@ public class ISSCore {
     /** The default Json file of storing Image Details. */
     public static final String IMAGE_DETAILS_FILENAME = INFO_FOLDER_PATHNAME + "\\ImageDetails.json";
 
-    /** Store the JSON files in working folder. */
-    public static final int STORE_IN_WORKING_FOLDER = 0;
-    /** Store the JSON files in program folder. */
-    public static final int STORE_IN_PROGRAM_FOLDER = 1;
+    /** The default Logs home. */
+    public static final String LOG_FOLDER_PATHNAME = ".\\.log";
+    /** The default Log file. */
+    public static final String LOG_FILE = LOG_FOLDER_PATHNAME + "\\ISS_" + getDateInFormat(PATTERN_FOR_FILE) + ".log";
+    
+    /** The name of the logger. */
+    public static final String LOGGER_NAME = "ISS_Logger";
+    /** The logger of ISS. *Need to be initialized before logging any message.* */
+    public static final Logger logger = Logger.getLogger(LOGGER_NAME);
+    /** The default level of ISS_Logger. */
+    public static final Level defaultLoggerLevel = Level.ALL;
+    
+    /** Used for first startup checking. */
+    private static boolean hasStartUp = false;
 
-    /** The Date format used for {@code SimpleDateFormat}. */
-    public static final String SYSTEM_DATE_FORMAT = "yyyy/MM/dd hh:mm:ss";
+    /**
+     * Initialize every static attributes in ISS, like Logger.<p>
+     * <b>IMPORTANT!</b> This method should be called in the frist line of {@code Main.class} and can only
+     * be called once.
+     */
+    public static void startUpISS() {
+        // Exit the program if this is not the first time to call this method.
+        if (hasStartUp) {
+            logger.warning("core.ISSCore.startUpISS() has been called for multiple times! Please check the code immediatly!");
+            return;
+        }
+        
+        // Finish the Logger setting.
+        logger.setLevel(defaultLoggerLevel);
+        try {
+            FileHandler fileHandler = new FileHandler(LOG_FILE);
+            fileHandler.setLevel(defaultLoggerLevel);
+            fileHandler.setFormatter(new Formatter() {
+                @Override
+                public String format(LogRecord record) {
+                    String levelString;
+                    switch (record.getLevel().getName().toCharArray()[0]) {
+                        case 'S':
+                            levelString = "ERROR";
+                            break;
+                        case 'C':
+                            levelString = "CONF";
+                            break;
+                        case 'W':
+                            levelString = "WARN";
+                            break;
+                        case 'I':
+                            levelString = "INFO";
+                            break;
+                        default:
+                            levelString = "VERB";
+                            break;
+                    }
+                    return "[" + getDateInFormat(PATTERN_FOR_STRING) + "] " +
+                           "[" + levelString + "]\t" +
+                           "@" + record.getSourceClassName() + "." + record.getSourceMethodName() + "\t| " +
+                           record.getMessage() +
+                           "\n";
+                }
+            });
+            logger.addHandler(fileHandler);
+            
+        }
+        catch (IOException e) {
+            System.err.println("Failed to initialize ISS_Logger\nAt core.ISSCore.startUpISS()\n"+e.getMessage());
+        }
 
-    /** The universal Date. */
-    public static final Date systemDate = new Date();
-
+        // TODO: Maybe there will be more feature in the future?
+    }
+    
     /**
      * Initialize working folder. This method will access every directories and files in
      * the give path to create basic tag system.
@@ -49,8 +127,8 @@ public class ISSCore {
      * But if true, then it's content will be deleted and I'll overwrite it as an
      * initialzed file.
      */
+    // XXX: Rewrite this method. Maybe seperate some features to a single method is way more better?
     public static void initialize(String workingFolder, boolean forceOverwrite) {
-
         File fileWorkingFolder = new File(workingFolder);
         
         File fileInfoFolder = new File(INFO_FOLDER_PATHNAME);
@@ -165,16 +243,21 @@ public class ISSCore {
         System.out.println("Initialization complete.");
     }
 
-    public static ArrayList<ISSImageFileUnit> makeFileCollection(File[] files) throws Exception {
-        ArrayList<ISSImageFileUnit> result = new ArrayList<ISSImageFileUnit>();
+    /**
+     * Get all files in working folder from file system. Contain all extensions (include RAR, ZIP, etc.).
+     * 
+     * @param files
+     * @return
+     */
+    public static ArrayList<File> makeFileCollection(File[] files) {
+        ArrayList<File> result = new ArrayList<File>();
 
         for (File file: files) {
             if (file.isDirectory())
                 result.addAll(makeFileCollection(file.listFiles()));
             else
-                result.add(new ISSImageFileUnit(file));
+                result.add(file);
         }
-        
         
         return result;
     }
@@ -254,6 +337,14 @@ public class ISSCore {
         return formatFileLength(file.length());
     }
     
-    
+    /**
+     * Get the system date in format.
+     * 
+     * @param pattern the specific pattern which the date string should formatted
+     * @return the frmatted date string
+     */
+    public static String getDateInFormat(String pattern) {
+        return new SimpleDateFormat(pattern).format(systemDate);
+    }
     
 }

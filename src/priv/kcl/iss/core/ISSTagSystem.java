@@ -1,14 +1,11 @@
 package priv.kcl.iss.core;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONWriter;
 
 /**
  * The core tag system of Image Searching System(ISS). Provides taging to each image in
