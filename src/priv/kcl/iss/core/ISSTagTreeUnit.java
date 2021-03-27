@@ -1,6 +1,5 @@
 package priv.kcl.iss.core;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -231,6 +230,7 @@ public class ISSTagTreeUnit {
         return result;
     }
 
+    // TODO: Complete this method.
     public void printTreeToConsole() {
 
     }

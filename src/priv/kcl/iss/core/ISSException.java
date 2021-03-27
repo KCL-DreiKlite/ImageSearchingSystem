@@ -1,7 +1,7 @@
 package priv.kcl.iss.core;
 
 
-public class ISSException extends RuntimeException {
+public class ISSException extends Exception {
     /** Serial version UID */
     private static final long serialVersionUID = -7322946965232396697L;
 

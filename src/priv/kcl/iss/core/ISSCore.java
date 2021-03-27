@@ -26,7 +26,6 @@ public class ISSCore {
     
     /** The Date format for any string need date. */
     public static final String PATTERN_FOR_STRING = "yyyy/MM/dd HH:mm:ss";
-    
     /** The Date format for any file name need date. */
     public static final String PATTERN_FOR_FILE = "yyyyMMdd_HHmmss";
     
@@ -51,29 +50,37 @@ public class ISSCore {
     public static final String LOGGER_NAME = "ISS_Logger";
     /** The logger of ISS. *Need to be initialized before logging any message.* */
     public static final Logger logger = Logger.getLogger(LOGGER_NAME);
-    /** The default level of ISS_Logger. */
-    public static final Level defaultLoggerLevel = Level.ALL;
+    /** The default logging level of ISS_Logger. */
+    public static final Level defaultLoggerAcceptLevel = Level.ALL;
+    /** The default record level for filehandler of ISS_Logger. */
+    public static final Level defaultLoggerRecordLevel = Level.FINE;
     
     /** Used for first startup checking. */
     private static boolean hasStartUp = false;
 
+    /** The pathname of the working folder. */
+    private static String workingFolderPathname;
+
     /**
      * Initialize every static attributes in ISS, like Logger.<p>
-     * <b>IMPORTANT!</b> This method should be called in the frist line of {@code Main.class} and can only
-     * be called once.
+     * <b>IMPORTANT!</b> This method should be called in the frist line of the entry of the program
+     * and can only be called once.
+     * 
+     * @param workingFolder the file of working folder
      */
-    public static void startUpISS() {
+    public static void startUpISS(File workingFolder) {
         // Exit the program if this is not the first time to call this method.
         if (hasStartUp) {
-            logger.warning("core.ISSCore.startUpISS() has been called for multiple times! Please check the code immediatly!");
+            logger.warning("core.ISSCore.startUpISS() has been called for multiple times! This should not happen!");
             return;
         }
         
         // Finish the Logger setting.
-        logger.setLevel(defaultLoggerLevel);
+        new File(LOG_FOLDER_PATHNAME).mkdir();
+        logger.setLevel(defaultLoggerAcceptLevel);
         try {
             FileHandler fileHandler = new FileHandler(LOG_FILE);
-            fileHandler.setLevel(defaultLoggerLevel);
+            fileHandler.setLevel(defaultLoggerRecordLevel);
             fileHandler.setFormatter(new Formatter() {
                 @Override
                 public String format(LogRecord record) {
@@ -96,8 +103,9 @@ public class ISSCore {
                             break;
                     }
                     return "[" + getDateInFormat(PATTERN_FOR_STRING) + "] " +
-                           "[" + levelString + "]\t" +
-                           "@" + record.getSourceClassName() + "." + record.getSourceMethodName() + "\t| " +
+                           "[" + Thread.currentThread().getName() + "/" +
+                           "@" + record.getSourceClassName() + "." + record.getSourceMethodName() + "] " +
+                           "[" + levelString + "] | " +
                            record.getMessage() +
                            "\n";
                 }
@@ -106,8 +114,24 @@ public class ISSCore {
             
         }
         catch (IOException e) {
-            System.err.println("Failed to initialize ISS_Logger\nAt core.ISSCore.startUpISS()\n"+e.getMessage());
+            System.err.println("Failed to initialize ISS_Logger\nAt core.ISSCore.startUpISS()\n"+e.toString());
         }
+
+        // Define {@code fileWorkingFolder}.
+        // if (workingFolder.charAt(workingFolder.length()-1) == '\\')
+        //     workingFolderPathname = workingFolder.substring(0, workingFolder.length()-2);
+        // else
+        //     workingFolderPathname = workingFolder;
+        String workingFolderPathname;
+        try {
+            workingFolderPathname = workingFolder.getCanonicalPath();
+        }
+        catch (Exception e) {
+            workingFolderPathname = workingFolder.getAbsolutePath();
+        }
+        if (workingFolderPathname.charAt(workingFolderPathname.length()-1) == '\\')
+            workingFolderPathname = workingFolderPathname.substring(0, workingFolderPathname.length()-2);
+        ISSCore.workingFolderPathname = workingFolderPathname;
 
         // TODO: Maybe there will be more feature in the future?
     }
@@ -262,6 +286,7 @@ public class ISSCore {
         return result;
     }
 
+    // XXX: Rewrite this method
     public static void deleteInfoFolder() {
         new File(BASIC_INFO_FILENAME).delete();
         new File(TAGS_FILENAME).delete();
@@ -269,6 +294,17 @@ public class ISSCore {
         new File(INFO_FOLDER_PATHNAME).delete();
     }
 
+    /**
+     * Delete the whole LOG_FOLDER.
+     */
+    public static void deleteLogFolder() {
+        File logFolder = new File(LOG_FOLDER_PATHNAME);
+        for (File logFile: logFolder.listFiles())
+            logFile.delete();
+        logFolder.delete();
+    }
+
+    /// XXX: Rewrite this method
     public static boolean checkInfoFolderExist() {
         if (!new File(BASIC_INFO_FILENAME).exists() ||
             !new File(TAGS_FILENAME).exists() ||
@@ -347,4 +383,19 @@ public class ISSCore {
         return new SimpleDateFormat(pattern).format(systemDate);
     }
     
+    /**
+     * Get the working folder's pathname.
+     * @return the string of working folder's pathname ended without "\"
+     */
+    public static String getWorkingFolderPathname() {
+        return workingFolderPathname;
+    }
+    /**
+     * Get the working folder.
+     * @return the {@code File} object of the working folder.
+     */
+    public static File getWorkingFolder() {
+        return new File(workingFolderPathname);
+    }
+
 }

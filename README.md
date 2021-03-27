@@ -16,7 +16,7 @@ The goal of Image Searching System(ISS) is to provides these features:
 # Previous work
 The purpose of this sector is to let me know where I was working on of my project.
 ### TODO:
-* See problem viewer - TODO
+* See problem viewer - TODO and XXX
 
 # Version Information
 
@@ -26,7 +26,10 @@ The following is the version information of ISS.
 * Change the reurn data type of ISSCore.makeFileCollection(File[]) to Arraylist\<File\>
 * Add a method in core.ISSCore to get the date string in system date format.
 * Add a logger in core.ISSCore.
-* Create ISSException to handle exceptions of ISS.
+* Create ISSException to handle unique exceptions of ISS.
+* Create core.ISSImageFileUnit.getFileRelativePath() to get the relative pathname of an IFU.
+* Let core.ISSCore handle the working folder pathname of the whole program by create a new varibale called <code>workingFolder</code> so every class in ISS can get the working folder pathname without invoke any argument of any method.<p>The reason to make separate this variable is to convert the file system to relative pathname, so the <code>ISSImageSystem</code> or other else classes can easily find out where's the specific file if the root pathname is not the same every time the program started.<p>Also, all the pathname should started with ".\" or "\" but ended without "\".
+* <b>From now on, the file pathname system will use relative pathname in every usual-use methods. Any method still using absolute pathname will be rewrite. And also, any method need to invoke the pathname of working folder should call <code>core.ISSCore.getWorkingFolderPathname()</code> instead of defining the pathname by itself.</b>
 
 
 ### Ver. 0.0.5

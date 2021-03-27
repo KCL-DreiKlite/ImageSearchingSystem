@@ -2,9 +2,6 @@ package priv.kcl.iss.core;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.FileAlreadyExistsException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -42,143 +39,167 @@ public class ISSImageFileUnit {
         array.forEach(tagname -> {
             if (tagname.getClass() != String.class)
                 return;
-            ISSTagTreeUnit ttu = standardTagTree.find((String) tagname);
+            ISSTagTreeUnit ttu = standardTagTree.find(String.valueOf(tagname));
             if (ttu != null)
                 myTags.add(ttu);
             else
                 return;
         });
+
+        ISSCore.logger.finest(toString());
     }
     /**
      * Create an Image Unit.
      * 
      * @param file the image file which I should be
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
      */
-    public ISSImageFileUnit(File file) throws FileNotFoundException, FileAlreadyExistsException {
+    public ISSImageFileUnit(File file) throws ISSException {
         this.fileImage = file;
         this.myTags = new ArrayList<ISSTagTreeUnit>();
         this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
 
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param filePath the path of the image file which I should be
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(String filePath) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = new File(filePath);
-        this.myTags = new ArrayList<ISSTagTreeUnit>();
-        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
-
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param file the image file which I should be
-     * @param addedTime when this image file added into ISS
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(File file, String addedTime) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = file;
-        this.myTags = new ArrayList<ISSTagTreeUnit>();
-        this.addedTime = addedTime;
-
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param filePath the path of the image file which I should be
-     * @param addedTime when this image file added into ISS
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(String filePath, String addedTime) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = new File(filePath);
-        this.myTags = new ArrayList<ISSTagTreeUnit>();
-        this.addedTime = addedTime;
-
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param file the image file which I should be
-     * @param tags all of my tags
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(File file, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = file;
-        this.myTags = tags;
-        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
-
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param filePath the path of the image file which I should be
-     * @param tags all of my tags
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(String filePath, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = new File(filePath);
-        this.myTags = tags;
-        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
-
-        checkFile();
-    }
-
-    /**
-     * Create an Image Unit.
-     * 
-     * @param file the image file which I should be
-     * @param addedTime when this image file added into ISS
-     * @param tags all of my tags
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(File file, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = file;
-        this.myTags = tags;
-        this.addedTime = addedTime;
-
-        checkFile();
-    }
-    /**
-     * Create an Image Unit.
-     * 
-     * @param filePath the path of the image file which I should be
-     * @param addedTime when this image file added into ISS
-     * @param tags all of my tags
-     * @throws FileNotFoundException thrown if the file does not exist in file system
-     * @throws FileAlreadyExistsException thrown if the path point to a folder
-     */
-    public ISSImageFileUnit(String filePath, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws FileNotFoundException, FileAlreadyExistsException {
-        this.fileImage = new File(filePath);
-        this.myTags = tags;
-        this.addedTime = addedTime;
-
-        checkFile();
-    }
-
-    /** Check if the image file is valid. */
-    private void checkFile() throws FileNotFoundException, FileAlreadyExistsException {
         if (!this.fileImage.exists())
-            throw new FileNotFoundException("File does not exist");
+            throw new ISSException("File not found");
         else if (this.fileImage.isDirectory())
-            throw new FileAlreadyExistsException("Folder is not acceptable");
-    }
+            throw new ISSException("The file path pointed to a directory");
 
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param filePath the path of the image file which I should be
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(String filePath) throws ISSException {
+        this.fileImage = new File(filePath);
+        this.myTags = new ArrayList<ISSTagTreeUnit>();
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param file the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(File file, String addedTime) throws ISSException {
+        this.fileImage = file;
+        this.myTags = new ArrayList<ISSTagTreeUnit>();
+        this.addedTime = addedTime;
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param filePath the path of the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(String filePath, String addedTime) throws ISSException {
+        this.fileImage = new File(filePath);
+        this.myTags = new ArrayList<ISSTagTreeUnit>();
+        this.addedTime = addedTime;
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param file the image file which I should be
+     * @param tags all of my tags
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(File file, ArrayList<ISSTagTreeUnit> tags) throws ISSException {
+        this.fileImage = file;
+        this.myTags = tags;
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param filePath the path of the image file which I should be
+     * @param tags all of my tags
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(String filePath, ArrayList<ISSTagTreeUnit> tags) throws ISSException {
+        this.fileImage = new File(filePath);
+        this.myTags = tags;
+        this.addedTime = ISSCore.getDateInFormat(ISSCore.PATTERN_FOR_STRING);
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param file the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @param tags all of my tags
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(File file, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws ISSException {
+        this.fileImage = file;
+        this.myTags = tags;
+        this.addedTime = addedTime;
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
+    /**
+     * Create an Image Unit.
+     * 
+     * @param filePath the path of the image file which I should be
+     * @param addedTime when this image file added into ISS
+     * @param tags all of my tags
+     * @throws ISSException thrown if there's no such file or the pathname pointed to a directory
+     */
+    public ISSImageFileUnit(String filePath, String addedTime, ArrayList<ISSTagTreeUnit> tags) throws ISSException {
+        this.fileImage = new File(filePath);
+        this.myTags = tags;
+        this.addedTime = addedTime;
+
+        if (!this.fileImage.exists())
+            throw new ISSException("File not found");
+        else if (this.fileImage.isDirectory())
+            throw new ISSException("The file path pointed to a directory");
+
+        ISSCore.logger.finest(toString());
+    }
     
 
     /**
@@ -255,16 +276,36 @@ public class ISSImageFileUnit {
     }
 
     /**
-     * 
+     * Get the name of file without path.<p>
+     * For example, if there's a file with this local path: {@code /home/pic/image.jpg}
+     * , then it'll return {@code image.jpg}.
      * @return
      */
-    public String getFileName() {
+    public String getFilename() {
         return fileImage.getName();
     }
+    /**
+     * Get the name of file without path and extension.
+     * For example, if there's a file with this local path: {@code /home/pic/image.jpg}
+     * , then it'll return {@code image}.
+     * @return
+     */
     public String getFilenameWithoutExtension() {
         int extIndex = fileImage.getName().lastIndexOf(".");
         return fileImage.getName().substring(0, (extIndex==-1? fileImage.getName().length(): extIndex));
     }
+    /**
+     * Get the extension of file. <b>The return string will convert to uppercase.</b>
+     * @return
+     */
+    public String getFileExtension() {
+
+        if (getFilename().equals(getFilenameWithoutExtension()))
+            return ISSImageSystem.EXT_EMPTY;
+        else
+            return getFilename().substring(getFilenameWithoutExtension().length()+1).toUpperCase();
+    }
+
     /**
      * Get the file's length.
      * @return the length of the image file
@@ -284,7 +325,7 @@ public class ISSImageFileUnit {
      * Get the absolute pathname of the image file.
      * @return the String of the path
      */
-    public String getFilePath() {
+    public String getFileAbsolutePath() {
         try {
             return fileImage.getCanonicalPath();
         }
@@ -292,7 +333,30 @@ public class ISSImageFileUnit {
             return fileImage.getAbsolutePath();
         }
     }
-    
+    /**
+     * Get the relative pathname based on the given working folder path.<p>
+     * For example, if the IFU's pathname is {@code "C:\hello\hi.jpg"} with the input argument
+     * {@code "C:\hello\"}, then it'll return {@code ".\hi.jpg"}. It'll return the same string
+     * if the input is {@code "C:\hello"}. But if the input is {@code "D:\bye"}, then the
+     * return value will be {@code null}.
+     * 
+     * @param workingFolderPath the working folder's pathname
+     * @return the relative pathname start with ".\"
+     */
+    // TODO: Rewrite this method by changing the soruce of working folder pathanme to ISSCore.getWorkingFolderPathname()
+    public String getFileRelativePath() {
+        // String absPath = getFileAbsolutePath();
+        // if (absPath.indexOf(ISSCore.getWorkingFolderPathname(), 0) == 0) {
+        //     String rltPath = absPath.substring(ISSCore.getWorkingFolderPathname().length());
+        //     rltPath = (rltPath.charAt(0)!='\\' ? ".\\" : ".") + rltPath;
+        //     return rltPath;
+        // }
+        // else
+        //     return null;
+        // String rltPath = "." + absPath.substring(ISSCore.getWorkingFolderPathname().length());
+        return "." + getFileAbsolutePath().substring(ISSCore.getWorkingFolderPathname().length());
+    }
+
     /**
      * Get the tags of this image.
      * @return an Arraylist contains all tags
@@ -310,13 +374,13 @@ public class ISSImageFileUnit {
     }
 
     public String toString() {
-        return "[Filename="+fileImage.getName()+",Location="+getFilePath()+",Length="+getFileLengthInFormat()+",AddedTime="+getAddedTime()+"]";
+        return "[Filename="+fileImage.getName()+",Location="+getFileAbsolutePath()+",Length="+getFileLengthInFormat()+",AddedTime="+getAddedTime()+"]";
     }
     
     public JSONObject toJSONObject() {
         JSONObject result = new JSONObject();
-        result.put(ISSImageSystem.KEY_FILENAME, getFileName());
-        result.put(ISSImageSystem.KEY_FILEPATH, getFilePath());
+        result.put(ISSImageSystem.KEY_FILENAME, getFilename());
+        result.put(ISSImageSystem.KEY_FILEPATH, getFileAbsolutePath());
         result.put(ISSImageSystem.KEY_ADDEDTIME, addedTime);
         JSONArray tagArray = new JSONArray();
         myTags.stream().forEach(tag -> tagArray.put(tag));
